@@ -369,3 +369,19 @@ footer {
   object-fit: cover;
   border-radius: 50%;
 }
+
+@media (max-width: 975px) {
+  .logoFooter {
+    display: none;
+  }
+}
+
+@media (max-width: 575px) {
+  footer {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+    gap: 15px;
+  }
+}
