@@ -3,6 +3,9 @@
 let cartIcon = document.querySelector("#cart-icon");
 let cart = document.querySelector(".cart");
 let closeCart = document.querySelector("#close-cart");
+let buyButton = document.querySelector(".btn-buy");
+let search = document.querySelector("#buscador");
+let hideContainer = document.querySelector(".container-buscador");
 
 //Abrir el carrito
 
@@ -16,6 +19,13 @@ closeCart.onclick = () => {
   cart.classList.remove("active");
 };
 
+search.onclick = () => {
+  hideContainer.classList.remove("hiden");
+};
+
+window.onscroll = () => {
+  hideContainer.classList.add("hiden");
+};
 //Funcionamiento del carrito JS
 
 if (document.readyState == "loading") {
@@ -27,27 +37,27 @@ if (document.readyState == "loading") {
 //Borrar items carrito
 
 function ready() {
-  var removeCartButtons = document.getElementsByClassName("cart-remove");
+  let removeCartButtons = document.getElementsByClassName("cart-remove");
   console.log(removeCartButtons);
-  for (var i = 0; i < removeCartButtons.length; i++) {
-    var button = removeCartButtons[i];
+  for (let i = 0; i < removeCartButtons.length; i++) {
+    let button = removeCartButtons[i];
     button.addEventListener("click", removeCartItem);
   }
-  //Quantity Changes
-  var quantityInputs = document.getElementsByClassName("cart-quantity");
-  for (var i = 0; i < quantityInputs.length; i++) var input = quantityInputs[i];
+  //Cambios en la cantidad
+  let quantityInputs = document.getElementsByClassName("cart-quantity");
+  for (let i = 0; i < quantityInputs.length; i++) var input = quantityInputs[i];
   input.addEventListener("change", quantityChanged);
 
   //Agregar al carrito
-  var addCart = document.getElementsByClassName("add-cart");
-  for (var i = 0; i < addCart.length; i++) {
-    var button = addCart[i];
+  let addCart = document.getElementsByClassName("add-cart");
+  for (let i = 0; i < addCart.length; i++) {
+    let button = addCart[i];
     button.addEventListener("click", addCartClicked);
   }
 }
 
 function removeCartItem(event) {
-  var buttonClicked = event.target;
+  let buttonClicked = event.target;
   buttonClicked.parentElement.remove();
   updatetotal();
 }
@@ -55,55 +65,154 @@ function removeCartItem(event) {
 //Actualizar cantidad
 
 function quantityChanged(event) {
-  var input = event.target;
+  let input = event.target;
   if (isNaN(input.value) || input.value <= 0) {
     input.value = 1;
   }
   updatetotal();
 }
-//Agregar al carrito (console)
 
+//!Agregar al carrito (Consola)
+// La simulacion de la consola
+// prompt en line 124
 function addCartClicked(event) {
-  var button = event.target;
-  var shopProducts = button.parentElement;
-  var title = shopProducts.getElementsByClassName("product-title")[0].innerText;
-  var price = shopProducts.getElementsByClassName("price")[0].innerText;
-  // var productImg = shopProducts.getElementsByClassName("product-img")[0].src;
+  let button = event.target;
+  let shopProducts = button.parentElement;
+  let title = shopProducts.getElementsByClassName("product-title")[0].innerText;
+  let price = shopProducts.getElementsByClassName("price")[0].innerText;
+  let productImg = shopProducts.getElementsByClassName("product-img")[0].src;
 
-  addProductTo(title, price);
+  addProductTo(title, price, productImg);
   updatetotal();
 
-  console.log(title, price);
+  console.log(title, price, productImg);
 }
 
-function addProductTo(title, price) {
-  var cartShopBox = document.createElement("div");
+function addProductTo(title, price, productImg) {
+  let cartShopBox = document.createElement("div");
   cartShopBox.classList.add("cart-box");
-  var cartItems = document.getElementsByClassName("cart-content");
-  var cartItemsNames = document.getElementsByClassName("cart-product-title");
-  for (var i = 0; i < cartItemsNames.length; i++) {
+  let cartItems = document.getElementsByClassName("cart-content");
+  let cartItemsNames = document.getElementsByClassName("cart-product-title");
+  for (let i = 0; i < cartItemsNames.length; i++) {
     alert("Agregaste este producto a tu carrito");
     return;
   }
 }
 
-//Actualizar el total
+//!Actualizar el total
 
 function updatetotal() {
-  var cartContent = document.getElementsByClassName("cart-content")[0];
-  var cartBoxes = cartContent.getElementsByClassName("cart-box");
-  var total = 0;
-  for (var i = 0; i < cartBoxes.length; i++) {
-    var cartBox = cartBoxes[i];
-    var priceElement = cartBox.getElementsByClassName("cart-price")[0];
-    var quantityElement = cart.getElementsByClassName("cart-quantity")[0];
-    var price = parseFloat(priceElement.innerText.replace("$", ""));
-    var quantity = quantityElement.value;
+  let cartContent = document.getElementsByClassName("cart-content")[0];
+  let cartBoxes = cartContent.getElementsByClassName("cart-box");
+  let total = 0;
+  for (let i = 0; i < cartBoxes.length; i++) {
+    let cartBox = cartBoxes[i];
+    let priceElement = cartBox.getElementsByClassName("cart-price")[0];
+    let quantityElement = cart.getElementsByClassName("cart-quantity")[0];
+    let price = parseFloat(priceElement.innerText.replace("$", ""));
+    let quantity = quantityElement.value;
 
     total = total + price * quantity;
 
     //Por si tiene precio con centavos
     total = Math.round(total * 100) / 100;
-    document.getElementsByClassName("total-price")[0].innerText = "$" + total;
+
+    let totalPrice = (document.getElementsByClassName(
+      "total-price"
+    )[0].innerText = total);
+
+    //Prompt, alert || Segunda entrega
+    // La simulacion de la consola esta en la linea
+    buyButton.onclick = () => {
+      let cuotas = prompt("Seleccione la cantidad de cuotas: ");
+
+      while (cuotas == null || /\D/.test(cuotas) || cuotas == "") {
+        cuotas = prompt("Entre un número VÁLIDO: ");
+      }
+
+      switch (cuotas) {
+        case "1":
+          alert("Las cuotas disponibles son de 3, 6, y 12");
+          break;
+
+        case "2":
+          alert("Las cuotas disponibles son de 3, 6, y 12");
+
+          break;
+
+        case "3":
+          alert("Compra finalizada!");
+          alert("$" + totalPrice / 3);
+
+          break;
+
+        case "4":
+          alert("Las cuotas disponibles son de 3, 6, y 12");
+
+          break;
+
+        case "5":
+          alert("Las cuotas disponibles son de 3, 6, y 12");
+
+          break;
+
+        case "6":
+          alert("Compra finalizada!");
+          alert("$" + totalPrice / 6);
+
+          break;
+
+        case "7":
+          alert("Las cuotas disponibles son de 3, 6, y 12");
+
+          break;
+
+        case "8":
+          alert("Las cuotas disponibles son de 3, 6, y 12");
+
+          break;
+
+        case "9":
+          alert("Las cuotas disponibles son de 3, 6, y 12");
+
+          break;
+
+        case "10":
+          alert("Las cuotas disponibles son de 3, 6, y 12");
+          break;
+
+        case "11":
+          alert("Las cuotas disponibles son de 3, 6, y 12");
+
+          break;
+
+        case "12":
+          alert("Compra finalizada!");
+          alert("$" + totalPrice / 12);
+          break;
+
+        default:
+          alert("Recuerde que el maximo de cuotas es de 12!");
+      }
+    };
   }
 }
+
+let zapatilla = [
+  "Nike Azules",
+  "Nike Negras",
+  "Nike Rojas",
+  "Nike Verdes",
+  "Nike Gris",
+  "Nike Blancas",
+];
+
+document.addEventListener("keyup", (e) => {
+  if (e.target.matches("#buscador")) {
+    document.querySelectorAll(".articulos").forEach((zapatilla) => {
+      console.log(zapatilla.textContent.toLowerCase().includes(e.target.value))
+        ? zapatilla.classList.add("filter")
+        : zapatilla.classList.remove("filter");
+    });
+  }
+});
