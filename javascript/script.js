@@ -19,11 +19,11 @@ closeCart.onclick = () => {
   cart.classList.remove("active");
 };
 
-search.onclick = () => {
+search.onmouseenter = () => {
   hideContainer.classList.remove("hiden");
 };
 
-window.onscroll = () => {
+search.onmouseleave = () => {
   hideContainer.classList.add("hiden");
 };
 //Funcionamiento del carrito JS
@@ -59,6 +59,7 @@ function ready() {
 function removeCartItem(event) {
   let buttonClicked = event.target;
   buttonClicked.parentElement.remove();
+  localStorage.clear();
   updatetotal();
 }
 
@@ -73,8 +74,7 @@ function quantityChanged(event) {
 }
 
 //!Agregar al carrito (Consola)
-// La simulacion de la consola
-// prompt en line 124
+
 function addCartClicked(event) {
   let button = event.target;
   let shopProducts = button.parentElement;
@@ -85,19 +85,43 @@ function addCartClicked(event) {
   addProductTo(title, price, productImg);
   updatetotal();
 
-  console.log(title, price, productImg);
+  let productObj = {
+    producto: title,
+    precio: price,
+    imagen: productImg,
+  };
+
+  localStorage.setItem("title", JSON.stringify(productObj));
+  localStorage.getItem(productObj);
+  console.log(productObj);
 }
 
 function addProductTo(title, price, productImg) {
-  let cartShopBox = document.createElement("div");
+  const cartShopBox = document.createElement("div");
   cartShopBox.classList.add("cart-box");
   let cartItems = document.getElementsByClassName("cart-content");
   let cartItemsNames = document.getElementsByClassName("cart-product-title");
   for (let i = 0; i < cartItemsNames.length; i++) {
-    alert("Agregaste este producto a tu carrito");
+    Swal.fire(
+      "Exito",
+      "Se agregró al carrito de forma correcta",
+      "success",
+      "#252525"
+    );
     return;
   }
 }
+
+//!Revissar y arreglar/
+// const cartBoxContent = `<div class="cart-box"><img src="../img/Nike-azules.jpg" alt="" class="cart-img" /> <div class="detail-box"> <div class="cart-product-title">Nike azules</div> <div class="cart-price">250$</div> <input type="number" value="1" class="cart-quantity" /> </div> <i class="bx bxs-trash-alt cart-remove"></i> </div>`;
+// cartShopBox.innerHTML = cartBoxContent;
+// cartItems.append(cartShopBox);
+// cartShopBox
+//   .getElementsByClassName("cart-remove")[0]
+//   .addEventListener("click", removeCartItem);
+// cartShopBox
+//   .getElementsByClassName("cart-quantity")[0]
+//   .addEventListener("click", quantityChanged);
 
 //!Actualizar el total
 
@@ -121,8 +145,8 @@ function updatetotal() {
       "total-price"
     )[0].innerText = total);
 
-    //Prompt, alert || Segunda entrega
-    // La simulacion de la consola esta en la linea
+    //Promlt, alert || Segunda entrega
+    // La simulacion de la consola esta en la linea 138
     buyButton.onclick = () => {
       let cuotas = prompt("Seleccione la cantidad de cuotas: ");
 
@@ -197,15 +221,6 @@ function updatetotal() {
     };
   }
 }
-
-let zapatilla = [
-  "Nike Azules",
-  "Nike Negras",
-  "Nike Rojas",
-  "Nike Verdes",
-  "Nike Gris",
-  "Nike Blancas",
-];
 
 document.addEventListener("keyup", (e) => {
   if (e.target.matches("#buscador")) {
