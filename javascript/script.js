@@ -166,25 +166,37 @@ function updatetotal() {
     // de un cuadro de diálogo prompt.
 
     buyButton.onclick = () => {
-      let cuotas = prompt("Seleccione la cantidad de cuotas: ");
+      swal
+        .fire({
+          title: "Seleccione la cantidad de cuotas:",
+          input: "select",
+          inputOptions: {
+            3: "3 cuotas",
+            6: "6 cuotas",
+            12: "12 cuotas",
+          },
+          inputPlaceholder: "Seleccione una opción",
+          confirmButtonColor: "#252525",
+          showCancelButton: true,
+          cancelButtonColor: "#d33",
+        })
+        .then((result) => {
+          if (result.value) {
+            const cuotas = result.value;
+            const total = (totalPrice / cuotas).toFixed(2);
 
-      while ([3, 6, 12].indexOf(Number(cuotas)) === -1) {
-        cuotas = prompt(
-          "Por favor, seleccione una cantidad de cuotas de 3, 6 ó 12: "
-        );
-      }
-
-      const total = Math.round(totalPrice / cuotas);
-
-      swal.fire({
-        title: "Compra finalizada!",
-        text: `$${total}`,
-        icon: "success",
-        confirmButtonColor: "#252525",
-      });
+            swal.fire({
+              title: "Compra finalizada!",
+              text: `$${total}`,
+              icon: "success",
+              confirmButtonColor: "#252525",
+            });
+          }
+        });
     };
   }
 }
+
 document.addEventListener("keyup", (e) => {
   if (e.target.matches("#buscador")) {
     document.querySelectorAll(".articulos").forEach((zapatilla) => {
