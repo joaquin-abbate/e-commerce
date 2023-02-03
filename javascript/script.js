@@ -1,11 +1,11 @@
 //Carrito
 
-let cartIcon = document.querySelector("#cart-icon");
-let cart = document.querySelector(".cart");
-let closeCart = document.querySelector("#close-cart");
-let buyButton = document.querySelector(".btn-buy");
-let search = document.querySelector("#buscador");
-let hideContainer = document.querySelector(".container-buscador");
+const cartIcon = document.querySelector("#cart-icon");
+const cart = document.querySelector(".cart");
+const closeCart = document.querySelector("#close-cart");
+const buyButton = document.querySelector(".btn-buy");
+const search = document.querySelector("#buscador");
+const hideContainer = document.querySelector(".container-buscador");
 
 //Abrir el carrito
 
@@ -19,13 +19,14 @@ closeCart.onclick = () => {
   cart.classList.remove("active");
 };
 
-search.onmouseenter = () => {
+search.onclick = () => {
   hideContainer.classList.remove("hiden");
 };
 
 search.onmouseleave = () => {
   hideContainer.classList.add("hiden");
 };
+
 //Funcionamiento del carrito JS
 
 if (document.readyState == "loading") {
@@ -45,8 +46,10 @@ function ready() {
   }
   //Cambios en la cantidad
   let quantityInputs = document.getElementsByClassName("cart-quantity");
-  for (let i = 0; i < quantityInputs.length; i++) var input = quantityInputs[i];
-  input.addEventListener("change", quantityChanged);
+  for (let i = 0; i < quantityInputs.length; i++) {
+    let input = quantityInputs[i];
+    input.addEventListener("change", quantityChanged);
+  }
 
   //Agregar al carrito
   let addCart = document.getElementsByClassName("add-cart");
@@ -91,37 +94,49 @@ function addCartClicked(event) {
     imagen: productImg,
   };
 
-  localStorage.setItem("title", JSON.stringify(productObj));
-  localStorage.getItem(productObj);
+  localStorage.setItem("producto", JSON.stringify(productObj));
+  localStorage.getItem("producto");
   console.log(productObj);
 }
 
 function addProductTo(title, price, productImg) {
   const cartShopBox = document.createElement("div");
   cartShopBox.classList.add("cart-box");
-  let cartItems = document.getElementsByClassName("cart-content");
+  let cartItems = document.getElementsByClassName("cart-content")[0];
   let cartItemsNames = document.getElementsByClassName("cart-product-title");
-  for (let i = 0; i < cartItemsNames.length; i++) {
-    Swal.fire(
-      "Exito",
-      "Se agregró al carrito de forma correcta",
-      "success",
-      "#252525"
-    );
-    return;
-  }
+
+  const cartBoxContent = `<div class="cart-box">
+    <img src="${productImg}" alt="" class="cart-img" /> 
+    <div class="detail-box"> 
+      <div class="cart-product-title">${title}</div> 
+      <div class="cart-price">${price}</div> 
+      <input type="number" value="1" class="cart-quantity" /> 
+    </div> 
+    <i class="bx bxs-trash-alt cart-remove"></i> 
+  </div>`;
+
+  cartShopBox.innerHTML = cartBoxContent;
+  cartItems.appendChild(cartShopBox);
+  cartShopBox
+    .getElementsByClassName("cart-remove")[0]
+    .addEventListener("click", removeCartItem);
+  cartShopBox
+    .getElementsByClassName("cart-quantity")[0]
+    .addEventListener("click", quantityChanged);
+
+  Swal.fire({
+    title: "Se agregó al carrito!",
+    text: `${title}`,
+    icon: "success",
+    confirmButtonColor: "#252525",
+  });
 }
 
-//!Revissar y arreglar/
-// const cartBoxContent = `<div class="cart-box"><img src="../img/Nike-azules.jpg" alt="" class="cart-img" /> <div class="detail-box"> <div class="cart-product-title">Nike azules</div> <div class="cart-price">250$</div> <input type="number" value="1" class="cart-quantity" /> </div> <i class="bx bxs-trash-alt cart-remove"></i> </div>`;
-// cartShopBox.innerHTML = cartBoxContent;
-// cartItems.append(cartShopBox);
-// cartShopBox
-//   .getElementsByClassName("cart-remove")[0]
-//   .addEventListener("click", removeCartItem);
-// cartShopBox
-//   .getElementsByClassName("cart-quantity")[0]
-//   .addEventListener("click", quantityChanged);
+var cartItems = [];
+
+function addProductToCart(product) {
+  cartItems.push(product);
+}
 
 //!Actualizar el total
 
@@ -145,83 +160,31 @@ function updatetotal() {
       "total-price"
     )[0].innerText = total);
 
-    //Promlt, alert || Segunda entrega
-    // La simulacion de la consola esta en la linea 138
+    // prueba si cuotas no contiene un número decimal".
+    // Esto se usa para validar si el usuario ha ingresado un número válido o no,
+    //  y si no lo ha hecho, se le solicita que ingrese un número válido a través
+    // de un cuadro de diálogo prompt.
+
     buyButton.onclick = () => {
       let cuotas = prompt("Seleccione la cantidad de cuotas: ");
 
-      while (cuotas == null || /\D/.test(cuotas) || cuotas == "") {
-        cuotas = prompt("Entre un número VÁLIDO: ");
+      while ([3, 6, 12].indexOf(Number(cuotas)) === -1) {
+        cuotas = prompt(
+          "Por favor, seleccione una cantidad de cuotas de 3, 6 ó 12: "
+        );
       }
 
-      switch (cuotas) {
-        case "1":
-          alert("Las cuotas disponibles son de 3, 6, y 12");
-          break;
+      const total = Math.round(totalPrice / cuotas);
 
-        case "2":
-          alert("Las cuotas disponibles son de 3, 6, y 12");
-
-          break;
-
-        case "3":
-          alert("Compra finalizada!");
-          alert("$" + totalPrice / 3);
-
-          break;
-
-        case "4":
-          alert("Las cuotas disponibles son de 3, 6, y 12");
-
-          break;
-
-        case "5":
-          alert("Las cuotas disponibles son de 3, 6, y 12");
-
-          break;
-
-        case "6":
-          alert("Compra finalizada!");
-          alert("$" + totalPrice / 6);
-
-          break;
-
-        case "7":
-          alert("Las cuotas disponibles son de 3, 6, y 12");
-
-          break;
-
-        case "8":
-          alert("Las cuotas disponibles son de 3, 6, y 12");
-
-          break;
-
-        case "9":
-          alert("Las cuotas disponibles son de 3, 6, y 12");
-
-          break;
-
-        case "10":
-          alert("Las cuotas disponibles son de 3, 6, y 12");
-          break;
-
-        case "11":
-          alert("Las cuotas disponibles son de 3, 6, y 12");
-
-          break;
-
-        case "12":
-          alert("Compra finalizada!");
-          alert("$" + totalPrice / 12);
-          break;
-
-        default:
-          alert("Recuerde que el maximo de cuotas es de 12!");
-      }
+      swal.fire({
+        title: "Compra finalizada!",
+        text: `$${total}`,
+        icon: "success",
+        confirmButtonColor: "#252525",
+      });
     };
   }
 }
-
 document.addEventListener("keyup", (e) => {
   if (e.target.matches("#buscador")) {
     document.querySelectorAll(".articulos").forEach((zapatilla) => {
