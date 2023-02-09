@@ -1,5 +1,7 @@
 # e-commerce
-Proyecto coderhouse Js
+Proyecto coderhouse Js.
+
+
 Este código define una aplicación de carrito de compras. Es una combinación de HTML, CSS y JavaScript que permite a los usuarios agregar productos a un carrito virtual y realizar compras en línea.
 
 La aplicación utiliza la API de Document Object Model (DOM) de JavaScript para interactuar con elementos en la página web.
