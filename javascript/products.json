@@ -1,0 +1,47 @@
+[
+  {
+    "product-title": "NIKE AZULES",
+    "price": "$250",
+    "product-img": "../img/Nike-azules.jpg"
+  },
+  {
+    "product-title": "NIKE NEGRAS H",
+    "price": "$250",
+    "product-img": "../img/Nike-fondoazul.jpg"
+  },
+  {
+    "product-title": "NIKE NEGRAS W",
+    "price": "$350",
+    "product-img": "../img/Nike-fondovioleta.jpg"
+  },
+
+  {
+    "product-title": "NIKE GRIS",
+    "price": "$250",
+    "product-img": "../img/Nike-gris.jpg"
+  },
+
+  {
+    "product-title": "NIKE ROJAS",
+    "price": "$250",
+    "product-img": "../img/Nike-roja.jpg"
+  },
+
+  {
+    "product-title": "NIKE VERDES",
+    "price": "$250",
+    "product-img": "../img/Nike-verdes.jpg"
+  },
+
+  {
+    "product-title": "NIKE VERDES OCURO",
+    "price": "$250",
+    "product-img": "../img/nike-verdes-fondo-naranja.jpg"
+  },
+
+  {
+    "product-title": "NIKE BLANCAS",
+    "price": "$250",
+    "product-img": "../img/nike-blanca-naranja.jpg"
+  }
+]
